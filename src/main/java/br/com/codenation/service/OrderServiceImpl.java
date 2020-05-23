@@ -31,7 +31,10 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	@Override
 	public Set<Product> findProductsById(List<Long> ids) {
-		return ids.stream().map(id->productRepository.findById(id).get()).collect(Collectors.toSet());
+		return ids.stream()
+				.map(productRepository::findById)
+				.filter(Optional::isPresent).map(Optional::get)
+				.collect(Collectors.toSet());
 	}
 
 	/**
